@@ -20,19 +20,19 @@ except Exception:
 
 HEARST_WEBSITE = "https://www.hearstcorporation.io"
 BRAND_COLORS = {
-    "background": "#0A0F0F",
-    "primary": "#2EFFAF",
-    "text": "#FFFFFF",
-    "secondary": "#1A2C38"
+    "background": "#FFFFFF",
+    "primary": "#00A86B",
+    "text": "#2C3E50",
+    "secondary": "#F8F9FA"
 }
 
-# Enhanced CSS for Hearst branding and modern look
+# Enhanced CSS for Hearst branding and modern light theme
 st.markdown(f"""
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;400&display=swap" rel="stylesheet">
 <style>
     body, .stApp {{
-        background: #000000 !important;
-        color: #FFFFFF;
+        background: #FFFFFF !important;
+        color: #2C3E50;
         font-family: 'Montserrat', Arial, sans-serif;
     }}
     .main-title {{
@@ -41,72 +41,80 @@ st.markdown(f"""
         font-weight: 800;
         letter-spacing: 1.5px;
         margin-bottom: 0.5rem;
-        text-shadow: 0 4px 24px #2EFFAF33;
-        background: linear-gradient(90deg, #2EFFAF 0%, #00FFB2 50%, #00C6FB 100%);
+        text-shadow: 0 2px 12px rgba(0,168,107,0.15);
+        background: linear-gradient(90deg, #00A86B 0%, #00C851 50%, #00BFA5 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
     }}
     .main-subtitle {{
         font-size: 1.2rem;
-        color: #FFFFFFCC;
+        color: #5D6D7E;
         margin-bottom: 2.5rem;
         font-weight: 400;
     }}
     .hearst-card {{
-        background: rgba(26,44,56,0.98);
+        background: #FFFFFF;
         border-radius: 16px;
         padding: 32px 36px 24px 36px;
         margin-bottom: 32px;
-        box-shadow: 0 4px 24px rgba(46,255,175,0.10);
-        border-left: 6px solid #2EFFAF;
+        box-shadow: 0 4px 24px rgba(0,168,107,0.08);
+        border-left: 6px solid #00A86B;
+        border: 1px solid #E8F5E8;
         transition: box-shadow 0.2s;
     }}
     .hearst-card:hover {{
-        box-shadow: 0 8px 32px rgba(46,255,175,0.18);
+        box-shadow: 0 8px 32px rgba(0,168,107,0.12);
     }}
     .hearst-title {{
-        color: #2EFFAF;
+        color: #00A86B;
         font-size: 1.5rem;
         font-weight: 700;
         margin-bottom: 16px;
         display: flex;
         align-items: center;
         letter-spacing: 0.5px;
-        text-shadow: 0 2px 8px rgba(46,255,175,0.10);
     }}
     .hearst-icon {{
         font-size: 2rem;
         margin-right: 14px;
-        filter: drop-shadow(0 2px 8px #2EFFAF33);
+        color: #00A86B;
     }}
     .hearst-links a {{
-        color: #2EFFAF !important;
+        color: #00A86B !important;
         text-decoration: underline !important;
         font-weight: 500;
         font-size: 1.05rem;
     }}
     .stTextInput input {{
-        background-color: #1A2C38 !important;
-        color: #2EFFAF !important;
-        border: 2px solid #2EFFAF !important;
+        background-color: #FFFFFF !important;
+        color: #2C3E50 !important;
+        border: 2px solid #00A86B !important;
         border-radius: 6px;
         padding: 14px !important;
         font-size: 1.1rem;
     }}
     .stButton>button {{
-        background: linear-gradient(90deg, #2EFFAF 0%, #00C6FB 100%) !important;
-        color: #0A0F0F !important;
+        background: linear-gradient(90deg, #00A86B 0%, #00C851 100%) !important;
+        color: #FFFFFF !important;
         border: none;
         font-weight: bold;
         padding: 14px 28px;
         border-radius: 6px;
         font-size: 1.1rem;
-        box-shadow: 0 2px 8px rgba(46,255,175,0.10);
+        box-shadow: 0 2px 8px rgba(0,168,107,0.15);
         transition: background 0.2s;
     }}
     .stButton>button:hover {{
-        background: linear-gradient(90deg, #00C6FB 0%, #2EFFAF 100%) !important;
+        background: linear-gradient(90deg, #00C851 0%, #00A86B 100%) !important;
+        box-shadow: 0 4px 12px rgba(0,168,107,0.20);
+    }}
+    .stExpander {{
+        border: 1px solid #E8F5E8 !important;
+        border-radius: 8px !important;
+    }}
+    .stExpander > div:first-child {{
+        background-color: #F8FFF8 !important;
     }}
 </style>
 """, unsafe_allow_html=True)
@@ -119,7 +127,26 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-st.markdown("<hr style='border:1px solid #2EFFAF; margin: 2rem 0;'>", unsafe_allow_html=True)
+st.markdown("<hr style='border:1px solid #00A86B; margin: 2rem 0;'>", unsafe_allow_html=True)
+
+# API Status Information
+with st.expander("ℹ️ Important: API Usage Information", expanded=False):
+    st.markdown("""
+    **Groq API Limitations (Free Tier):**
+    - **Rate Limit:** 30 requests per minute
+    - **Daily Limit:** 14,400 requests per day
+    - **If you get errors:** Wait 2-3 minutes and try again
+    
+    **Common Issues & Solutions:**
+    - **"ModelProviderError"** → API rate limit exceeded, wait and retry
+    - **"Service unavailable"** → Groq servers temporarily down
+    - **"Invalid API key"** → Check your Streamlit secrets configuration
+    
+    **Tips for Success:**
+    - Use specific, focused topics (avoid very broad queries)
+    - Wait between requests if generating multiple pieces of content
+    - Check [Groq Status](https://status.groq.com) if persistent issues occur
+    """)
 
 # ------------------ Agent Factories ------------------
 @st.cache_resource
@@ -138,7 +165,7 @@ def create_research_agent():
             "",
             "{",
             '  "summary": "<1000-2000 word in-depth technical summary of the topic, including all major trends, findings, controversies, and future outlook. Use as much detail as possible, cite statistics, and reference sources.>",',
-            '  "simple_explanation": "<A simple, clear explanation of the topic in 100-200 words, suitable for someone with no technical background.>",',
+            '  "simple_explanation": "<A simple, clear explanation of the topic in 200-300 words, suitable for someone with no technical background.>",',
             '  "stats": ["statistic 1", "statistic 2", ...],',
             '  "links": ["Direct URL to a recent (last 12 months) research article or news post about the topic", "... (at least 8-10 unique, recent, high-quality links)"]',
             "}",
@@ -376,10 +403,34 @@ with tab1:
         placeholder="e.g., 'Renewable energy in Bitcoin mining'"
     )
     if st.button("Generate Expert Content"):
+        if not topic.strip():
+            st.error("Please enter a topic before generating content.")
+            st.stop()
+            
         with st.spinner("Researching and generating content..."):
-            # Phase 1: Research
-            research_agent = create_research_agent()
-            research_raw = research_agent.run(topic)
+            try:
+                # Phase 1: Research
+                research_agent = create_research_agent()
+                research_raw = research_agent.run(topic)
+            except Exception as e:
+                st.error(f"""
+                **API Error Occurred**
+                
+                This is likely due to one of the following issues:
+                - Groq API rate limits exceeded (free tier has strict limits)
+                - Groq API service temporarily unavailable
+                - Invalid or expired API key
+                - Network connectivity issues
+                
+                **Suggested Solutions:**
+                1. Wait 1-2 minutes and try again (rate limit reset)
+                2. Try a shorter, simpler topic
+                3. Check your Groq API key in Streamlit secrets
+                4. Verify your Groq account status at console.groq.com
+                
+                **Error Details:** {str(e)[:200]}...
+                """)
+                st.stop()
 
             # Try direct JSON load first, then fallback to extraction
             try:
@@ -394,13 +445,25 @@ with tab1:
                 st.warning("No valid research found. Try broadening your topic or adjusting keywords.")
             else:
                 # Phase 2: Post Generation
-                post_agent = create_post_agent()
-                post_input = {
-                    "summary": research_data.get("summary", ""),
-                    "stats": research_data.get("stats", []),
-                    "links": research_data.get("links", [])
-                }
-                post_raw = post_agent.run(json.dumps(post_input))
+                try:
+                    post_agent = create_post_agent()
+                    post_input = {
+                        "summary": research_data.get("summary", ""),
+                        "stats": research_data.get("stats", []),
+                        "links": research_data.get("links", [])
+                    }
+                    post_raw = post_agent.run(json.dumps(post_input))
+                except Exception as e:
+                    st.error(f"""
+                    **Post Generation Error**
+                    
+                    Failed to generate social media posts. This could be due to:
+                    - API rate limits
+                    - Service unavailability
+                    
+                    **Error:** {str(e)[:200]}...
+                    """)
+                    st.stop()
                 try:
                     posts = json.loads(post_raw.content)
                 except json.JSONDecodeError:
@@ -457,22 +520,39 @@ with tab2:
     st.header("Strategic Idea Generation")
     if st.button("Generate 5 Expert Ideas"):
         with st.spinner("Gathering latest mining news..."):
-            # Agent 1: Gather and summarize latest mining news
-            mining_news_agent = Agent(
-                name="Crypto Mining News Summarizer",
-                role="Summarize the latest (last 1-2 months) crypto mining news and provide a list of direct article links.",
-                model=Groq(id="llama-3.3-70b-versatile"),
-                tools=[DuckDuckGoTools(search=True, news=True)],
-                instructions=[
-                    "Research the latest (last 1-2 months) news and innovations in the crypto mining industry ONLY and make sure to give urls of the research.",
-                    "Return a JSON object with:",
-                    '{ "summary": "<detailed summary of the latest news>", "links": ["direct article link 1", "direct article link 2", "... (at least 5)"] }',
-                    "All links must be direct to a specific article, not homepages or topic pages."
-                ],
-                show_tool_calls=False,
-                markdown=False
-            )
-            mining_news = mining_news_agent.run("Latest crypto mining news and innovations")
+            try:
+                # Agent 1: Gather and summarize latest mining news
+                mining_news_agent = Agent(
+                    name="Crypto Mining News Summarizer",
+                    role="Summarize the latest (last 1 month) crypto mining news and provide a list of direct article links.",
+                    model=Groq(id="llama-3.3-70b-versatile"),
+                    tools=[DuckDuckGoTools(search=True, news=True)],
+                    instructions=[
+                        "Research the latest (last 1 month) news and innovations in the crypto mining industry ONLY and make sure to give urls of the research.",
+                        "Return a JSON object with:",
+                        '{ "summary": "<detailed summary of the latest news>", "links": ["direct article link 1", "direct article link 2", "... (at least 5)"] }',
+                        "All links must be direct to a specific article, not homepages or topic pages."
+                    ],
+                    show_tool_calls=False,
+                    markdown=False
+                )
+                mining_news = mining_news_agent.run("Latest crypto mining news and innovations")
+            except Exception as e:
+                st.error(f"""
+                **News Gathering Error**
+                
+                Failed to gather latest mining news. This could be due to:
+                - Groq API rate limits (free tier: 30 requests/minute)
+                - Network connectivity issues
+                - Service temporarily unavailable
+                
+                **Solutions:**
+                1. Wait 2-3 minutes and try again
+                2. Check your internet connection
+                
+                **Error:** {str(e)[:200]}...
+                """)
+                st.stop()
             try:
                 mining_news_data = json.loads(mining_news.content)
             except Exception:
@@ -482,24 +562,36 @@ with tab2:
                 st.stop()
 
             # Agent 2: Generate 5 ideas from the summary and links
-            idea_agent = Agent(
-                name="Crypto Mining Idea Generator",
-                role="Generate actionable content ideas for Hearst based on mining news.",
-                model=Groq(id="llama-3.3-70b-versatile"),
-                instructions=[
-                    "Given the following mining news summary and links, generate 5 actionable content ideas for Hearst Corporation.",
-                    "Each idea must be about crypto mining or a new technology directly impacting mining.",
-                    "Return a JSON array of 5 objects, each with:",
-                    '{ "topic": "<short, catchy idea title>", "summary": "<5-10 sentence summary>", "description": "<detailed explanation>", "links": ["useful article link(s) from the provided list"], "suggested_post_angle": "<optional>" }'
-                ],
-                show_tool_calls=False,
-                markdown=False
-            )
-            idea_input = {
-                "summary": mining_news_data.get("summary", ""),
-                "links": mining_news_data.get("links", [])
-            }
-            ideas = idea_agent.run(json.dumps(idea_input))
+            try:
+                idea_agent = Agent(
+                    name="Crypto Mining Idea Generator",
+                    role="Generate actionable content ideas for Hearst based on mining news.",
+                    model=Groq(id="llama-3.3-70b-versatile"),
+                    instructions=[
+                        "Given the following mining news summary and links, generate 5 actionable content ideas for Hearst Corporation.",
+                        "Each idea must be about crypto mining or a new technology directly impacting mining.",
+                        "Return a JSON array of 5 objects, each with:",
+                        '{ "topic": "<short, catchy idea title>", "summary": "<5-10 sentence summary>", "description": "<detailed explanation>", "links": ["useful article link(s) from the provided list"], "suggested_post_angle": "<optional>" }'
+                    ],
+                    show_tool_calls=False,
+                    markdown=False
+                )
+                idea_input = {
+                    "summary": mining_news_data.get("summary", ""),
+                    "links": mining_news_data.get("links", [])
+                }
+                ideas = idea_agent.run(json.dumps(idea_input))
+            except Exception as e:
+                st.error(f"""
+                **Idea Generation Error**
+                
+                Failed to generate content ideas. This could be due to:
+                - API rate limits exceeded
+                - Service temporarily down
+                
+                **Error:** {str(e)[:200]}...
+                """)
+                st.stop()
             try:
                 ideas_list = json.loads(ideas.content)
             except Exception:
