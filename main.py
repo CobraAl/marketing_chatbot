@@ -133,19 +133,12 @@ st.markdown("<hr style='border:1px solid #00A86B; margin: 2rem 0;'>", unsafe_all
 with st.expander("ℹ️ Important: API Usage Information", expanded=False):
     st.markdown("""
     **Groq API Limitations (Free Tier):**
-    - **Rate Limit:** 30 requests per minute
-    - **Daily Limit:** 14,400 requests per day
     - **If you get errors:** Wait 2-3 minutes and try again
     
     **Common Issues & Solutions:**
     - **"ModelProviderError"** → API rate limit exceeded, wait and retry
     - **"Service unavailable"** → Groq servers temporarily down
-    - **"Invalid API key"** → Check your Streamlit secrets configuration
     
-    **Tips for Success:**
-    - Use specific, focused topics (avoid very broad queries)
-    - Wait between requests if generating multiple pieces of content
-    - Check [Groq Status](https://status.groq.com) if persistent issues occur
     """)
 
 # ------------------ Agent Factories ------------------
@@ -420,13 +413,9 @@ with tab1:
                 - Groq API rate limits exceeded (free tier has strict limits)
                 - Groq API service temporarily unavailable
                 - Invalid or expired API key
-                - Network connectivity issues
                 
                 **Suggested Solutions:**
                 1. Wait 1-2 minutes and try again (rate limit reset)
-                2. Try a shorter, simpler topic
-                3. Check your Groq API key in Streamlit secrets
-                4. Verify your Groq account status at console.groq.com
                 
                 **Error Details:** {str(e)[:200]}...
                 """)
